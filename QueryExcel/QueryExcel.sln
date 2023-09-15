@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryExcel", "QueryExcel.csproj", "{A06260BA-F414-497E-876E-B173993634C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryExcel", "QueryExcel.csproj", "{642F5BAD-601E-42AF-8025-4308E4C76470}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A06260BA-F414-497E-876E-B173993634C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A06260BA-F414-497E-876E-B173993634C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A06260BA-F414-497E-876E-B173993634C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A06260BA-F414-497E-876E-B173993634C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{642F5BAD-601E-42AF-8025-4308E4C76470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{642F5BAD-601E-42AF-8025-4308E4C76470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{642F5BAD-601E-42AF-8025-4308E4C76470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{642F5BAD-601E-42AF-8025-4308E4C76470}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {DFC3D974-07BE-4643-A5E6-5F4D78D8B18B}
+		SolutionGuid = {18258437-81FD-40A7-9DF5-6953910CB62F}
 	EndGlobalSection
 EndGlobal

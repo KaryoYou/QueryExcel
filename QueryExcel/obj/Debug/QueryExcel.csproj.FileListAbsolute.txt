@@ -1,0 +1,9 @@
+D:\GitHub\QueryExcel\QueryExcel\bin\Debug\QueryExcel.exe.config
+D:\GitHub\QueryExcel\QueryExcel\bin\Debug\QueryExcel.exe
+D:\GitHub\QueryExcel\QueryExcel\bin\Debug\QueryExcel.pdb
+D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.csproj.AssemblyReference.cache
+D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.Properties.Resources.resources
+D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.csproj.GenerateResource.cache
+D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.csproj.CoreCompileInputs.cache
+D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.exe
+D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.pdb
