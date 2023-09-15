@@ -4,13 +4,7 @@ D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windo
 D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windows\QueryExcelByVisualBasic.dll
 D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windows\QueryExcelByVisualBasic.pdb
 D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windows\System.Data.OleDb.dll
-D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windows\System.Data.SqlClient.dll
-D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windows\runtimes\win-arm64\native\sni.dll
-D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windows\runtimes\win-x64\native\sni.dll
-D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windows\runtimes\win-x86\native\sni.dll
 D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windows\runtimes\win\lib\net7.0\System.Data.OleDb.dll
-D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\bin\Debug\net7.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\obj\Debug\net7.0-windows\QueryExcelByVisualBasic.vbproj.AssemblyReference.cache
 D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\obj\Debug\net7.0-windows\QueryExcelByVisualBasic.Form1.resources
 D:\GitHub\QueryExcelByVisualBasic\QueryExcelByVisualBasic\obj\Debug\net7.0-windows\QueryExcelByVisualBasic.vbproj.GenerateResource.cache

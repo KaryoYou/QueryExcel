@@ -45,13 +45,9 @@
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
           "dependencies": {
-            "System.Data.OleDb": {
+            "Microsoft.Office.Interop.Excel": {
               "target": "Package",
-              "version": "[7.0.0, )"
-            },
-            "System.Data.SqlClient": {
-              "target": "Package",
-              "version": "[4.8.5, )"
+              "version": "[15.0.4795.1001, )"
             }
           },
           "imports": [

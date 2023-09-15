@@ -1,6 +1,4 @@
-﻿'Imports EmisWio2.MsSql
-
-Imports System.IO
+﻿Imports System.IO
 
 Public Class Form1
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
@@ -11,6 +9,17 @@ Public Class Form1
             ComboBox1.Items.Add(OpenFileDialog1.FileName)
             ' 将选中的文件路径设置为ComboBox的当前选项
             ComboBox1.SelectedItem = OpenFileDialog1.FileName
+        End If
+    End Sub
+
+    Private Sub ComboBox1_MouseDown(sender As Object, e As MouseEventArgs) Handles ComboBox1.MouseDown
+        ' 如果ComboBox非空，则不显示下拉选项框,转到获取当前文件路径下的所有Excel文件的按键点击事件
+        If ComboBox1.Items.Count = 0 Then
+            'MessageBox.Show("未指定Excel文件路径", "文件路径选项", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            ComboBox1.AllowDrop = False
+            Button3.PerformClick()
+        Else
+            ComboBox1.AllowDrop = True
         End If
     End Sub
 
@@ -30,17 +39,6 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub ComboBox1_MouseDown(sender As Object, e As MouseEventArgs) Handles ComboBox1.MouseDown
-        ' 如果ComboBox非空，则不显示下拉选项框,转到获取当前文件路径下的所有Excel文件的按键点击事件
-        If ComboBox1.Items.Count = 0 Then
-            'MessageBox.Show("未指定Excel文件路径", "文件路径选项", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            ComboBox1.AllowDrop = False
-            Button3.PerformClick()
-        Else
-            ComboBox1.AllowDrop = True
-        End If
-    End Sub
-
     Private Sub ComboBox2_MouseDown(sender As Object, e As MouseEventArgs) Handles ComboBox2.MouseDown
         If String.IsNullOrEmpty(ComboBox1.SelectedItem) Then
             MessageBox.Show("未指定Excel文件路径", "工作簿选项", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -49,4 +47,31 @@ Public Class Form1
             ComboBox2.AllowDrop = True
         End If
     End Sub
+
+    Private Sub ComboBox2_DropDown(sender As Object, e As EventArgs) Handles ComboBox2.DropDown
+        ' 如果ComboBox1为空，不做任何响应
+        ' 如果ComboBox1非空，则获取选中Excel文件的所有
+
+        Dim filePath As String = ComboBox1.SelectedItem
+
+        If Not String.IsNullOrEmpty(filePath) Then
+            ComboBox2.Items.Clear()
+
+            Dim excelHelper As New Excel.ExcelHelper
+            Dim arr() As String = excelHelper.GetAllSheetName(filePath)
+
+            If arr Is Nothing Then Exit Sub
+
+            For Each worksheetName In arr
+                If Not String.IsNullOrEmpty(worksheetName) Then
+                    ComboBox1.Items.Add(worksheetName)
+                End If
+            Next
+
+            If ComboBox2.Items.Count > 0 Then
+                ComboBox2.SelectedIndex = 0
+            End If
+        End If
+    End Sub
+
 End Class
