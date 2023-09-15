@@ -11,12 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("QueryExcelByVisualBasic")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("QueryExcel")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("QueryExcelByVisualBasic")]
-[assembly: System.Reflection.AssemblyTitleAttribute("QueryExcelByVisualBasic")]
+[assembly: System.Reflection.AssemblyProductAttribute("QueryExcel")]
+[assembly: System.Reflection.AssemblyTitleAttribute("QueryExcel")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // 由 MSBuild WriteCodeFragment 类生成。

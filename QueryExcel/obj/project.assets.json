@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\GitHub\\QueryExcelByVisualBasic\\QueryExcelByVisualBasic\\QueryExcelByVisualBasic.csproj",
-      "projectName": "QueryExcelByVisualBasic",
-      "projectPath": "D:\\GitHub\\QueryExcelByVisualBasic\\QueryExcelByVisualBasic\\QueryExcelByVisualBasic.csproj",
+      "projectUniqueName": "D:\\GitHub\\QueryExcel\\QueryExcel\\QueryExcel.csproj",
+      "projectName": "QueryExcel",
+      "projectPath": "D:\\GitHub\\QueryExcel\\QueryExcel\\QueryExcel.csproj",
       "packagesPath": "C:\\Users\\Karyo\\.nuget\\packages\\",
-      "outputPath": "D:\\GitHub\\QueryExcelByVisualBasic\\QueryExcelByVisualBasic\\obj\\",
+      "outputPath": "D:\\GitHub\\QueryExcel\\QueryExcel\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
