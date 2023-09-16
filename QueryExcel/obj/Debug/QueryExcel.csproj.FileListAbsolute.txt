@@ -7,3 +7,4 @@ D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.csproj.GenerateResource.cac
 D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.csproj.CoreCompileInputs.cache
 D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.exe
 D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.pdb
+D:\GitHub\QueryExcel\QueryExcel\obj\Debug\QueryExcel.Form1.resources
