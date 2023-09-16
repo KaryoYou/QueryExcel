@@ -1,6 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Data;
+using System.IO;
 using System.Windows.Forms;
 
 namespace QueryExcel
@@ -31,11 +31,11 @@ namespace QueryExcel
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             TextBox textBox = sender as TextBox;
-            if (textBox != null)
+            string filePath = textBox.Text;
+            if (string.IsNullOrEmpty(filePath) == false)
             {
-                string filePath = textBox.Text;
-                Excel excel = new Excel(filePath);
-                if (excel.isExcelFile)
+                string fileType = Path.GetExtension(filePath);
+                if (fileType == ".xls" || fileType == ".xlsx")
                 {
                     // 如果是Excel文件路径，执行相应的操作
                     previousText = filePath; // 保存当前的值，以便下次使用
@@ -48,14 +48,38 @@ namespace QueryExcel
             }
         }
 
-        private void comboBox1_DropDown(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            string filePath = textBox1.Text; // Excel文件路径
-            Excel excel = new Excel(filePath);
-            if (excel.isExcelFile)
+            ListBox lb = listBox1; // 声明ListBox对象
+
+            dataSet1.Clear(); // 清空dataSetd对象
+            lb.Items.Clear(); // 清空listBox1内容
+
+            
+            Excel excel = new Excel(textBox1.Text); //初始化Excel类
+            dataSet1 = excel.data;  // 读取Excel内容到dataSetd对象
+
+            for (int i = 0; i <= dataSet1.Tables.Count - 1; i++) // 读取tabcontrol除第一页页面外的所有TabPage标题到listBox1中
             {
-                comboBox1.DataSource = excel.excelSheets; // 将数据绑定到comboBox1
-                comboBox1.DisplayMember = "TABLE_NAME";
+                lb.Items.Add(dataSet1.Tables[i].TableName);
+            }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListBox lb = sender as ListBox; // 声明ListBox控件事件触发对象
+
+            string tableName = lb.SelectedItem.ToString();// 获取listbox的选中值
+
+            if (dataSet1.Tables.Contains(tableName)) // 检查DataSet中是否存在这个DataTable
+            {
+                this.label3.Text = tableName; // 将String赋值给label
+                this.dataGridView1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到DataGridView
+            }
+            else
+            {
+                this.label3.Text = string.Empty; // 清空label
+                MessageBox.Show("未找到名为 " + tableName + " 的DataTable");
             }
         }
     }

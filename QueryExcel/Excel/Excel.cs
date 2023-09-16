@@ -1,39 +1,60 @@
-﻿using System.IO;
-using System.Data;
+﻿using System.Data;
 using System.Data.OleDb;
 
 namespace QueryExcel
 {
     internal class Excel
     {
-        public readonly string excelFilePath;
-        public readonly bool isExcelFile = false;
-        public readonly DataTable excelSheets;
+        public DataSet data;
 
         public Excel(string filePath)
         {
-            if (IsExcelFileCheck(filePath))
-            {
-                excelFilePath = filePath;
-                isExcelFile = true;
-                excelSheets = ReadExcelSheets(string.Format("Provider=Microsoft.ACE.OLEDB.12.0; Data Source={0}; Extended Properties='Excel 12.0;'", filePath));
-            }
+            data = LoadExcelFile(filePath);
         }
 
-        private bool IsExcelFileCheck(string filePath)
+        private DataSet LoadExcelFile(string filePath)
         {
-            string extension = Path.GetExtension(filePath);
-            return extension == ".xls" || extension == ".xlsx";
-        }
+            // 连接字符串
+            string connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePath + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=1'";
 
-        private DataTable ReadExcelSheets(string connStr)
-        {
-            using (OleDbConnection conn = new OleDbConnection(connStr))
+            // 创建连接
+            OleDbConnection conn = new OleDbConnection(connString);
+
+            // 打开连接
+            conn.Open();
+
+            // 获取Excel文件中所有工作表的名字
+            DataTable dtSheetName = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+
+            // 声明DataSet1对象
+            DataSet ds = new DataSet();
+
+            // 遍历所有工作表
+            foreach (DataRow dr in dtSheetName.Rows)
             {
-                conn.Open();
-                DataTable dtSheetName = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                return dtSheetName;
+                string sheetName = dr["TABLE_NAME"].ToString();
+
+                // 查询语句
+                string sql = "select * from [" + sheetName + "]";
+
+                // 执行查询语句
+                OleDbDataAdapter adp = new OleDbDataAdapter(sql, conn);
+
+                // 创建一个新的DataTable来存储工作表数据
+                DataTable dt = new DataTable();
+
+                // 将查询结果填充到DataTable中
+                adp.Fill(dt);
+
+                // 将DataTable添加到DataSet中，并以工作表名命名
+                ds.Tables.Add(dt);
+                ds.Tables[ds.Tables.Count - 1].TableName = sheetName.Replace("$", "");
             }
+
+            // 关闭连接
+            conn.Close();
+
+            return ds;
         }
     }
 }
