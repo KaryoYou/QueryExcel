@@ -1,11 +1,18 @@
-﻿using System.Data;
+﻿using System.IO;
+using System.Data;
 using System.Data.OleDb;
+using System.Windows.Forms;
+using System.Diagnostics;
+using System.Text;
+using System;
 
 namespace QueryExcel
 {
     internal class Excel
     {
         public DataSet data;
+
+        public Excel(){}
 
         public Excel(string filePath)
         {
@@ -55,6 +62,89 @@ namespace QueryExcel
             conn.Close();
 
             return ds;
+        }
+
+        public void ExportDataToExcel(DataGridView dgv)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "导出Excel文件";
+            saveFileDialog.Filter = "Microsoft Office Excel 工作簿 (*.xls)|*.xls";
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.AddExtension = true;
+            saveFileDialog.RestoreDirectory = true;
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string localFilePath = saveFileDialog.FileName.ToString();
+                int TotalCount;
+                int RowRead = 0;
+                int Percent = 0;
+                TotalCount = dgv.Rows.Count;
+
+                Stream myStream = saveFileDialog.OpenFile();
+                StreamWriter sw = new StreamWriter(myStream, Encoding.GetEncoding("gb2312"));
+                string strHeader = "";
+                Stopwatch timer = new Stopwatch();
+                timer.Start();
+
+                try
+                {
+                    for (int i = 0; i < dgv.Columns.Count; i++)
+                    {
+                        if (i > 0)
+                        {
+                            strHeader += "\t";
+                        }
+                        strHeader += dgv.Columns[i].HeaderText.ToString();
+                    }
+                    sw.WriteLine(strHeader);
+
+                    for (int i = 0; i < dgv.Rows.Count; i++)
+                    {
+                        RowRead++;
+                        Percent = 100 * RowRead / TotalCount;
+                        string strData = "";
+
+                        for (int j = 0; j < dgv.Columns.Count; j++)
+                        {
+                            if (j > 0)
+                            {
+                                strData += "\t";
+                            }
+
+                            if (dgv.Rows[i].Cells[j].Value != null)
+                            {
+                                strData += dgv.Rows[i].Cells[j].Value.ToString();
+                            }
+                            else
+                            {
+                                strData += "";
+                            }
+                        }
+                        sw.WriteLine(strData);
+                    }
+
+                    sw.Close();
+                    myStream.Close();
+                    timer.Reset();
+                    timer.Stop();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                finally
+                {
+                    sw.Close();
+                    myStream.Close();
+                    timer.Stop();
+                }
+
+                if (MessageBox.Show("导出成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                {
+                    System.Diagnostics.Process.Start(localFilePath);
+                }
+            }
         }
     }
 }

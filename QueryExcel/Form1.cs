@@ -80,5 +80,11 @@ namespace QueryExcel
                 MessageBox.Show("未找到名为 " + tableName + " 的DataTable");
             }
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Excel excel = new Excel();
+            excel.ExportDataToExcel(dataGridView1);
+        }
     }
 }
