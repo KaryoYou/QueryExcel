@@ -73,12 +73,10 @@ namespace QueryExcel
 
             if (dataSet1.Tables.Contains(tableName)) // 检查DataSet中是否存在这个DataTable
             {
-                this.label3.Text = tableName; // 将String赋值给label
                 this.dataGridView1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到DataGridView
             }
             else
             {
-                this.label3.Text = string.Empty; // 清空label
                 MessageBox.Show("未找到名为 " + tableName + " 的DataTable");
             }
         }
