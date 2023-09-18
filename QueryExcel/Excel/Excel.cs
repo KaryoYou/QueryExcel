@@ -1,158 +1,182 @@
 ﻿using System.IO;
 using System.Data;
-using System.Data.OleDb;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.Text;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace QueryExcel
 {
     internal class Excel
     {
-        public DataSet data;
 
-        public Excel(){}
-
-        public Excel(string filePath)
+        /// <summary>
+        /// 静态构造函数
+        /// </summary>
+        public Excel()
         {
-            data = LoadExcelFile(filePath);
+        
         }
 
-        private DataSet LoadExcelFile(string filePath)
+        /// <summary>
+        /// 函数，读取Excel文件数据到Dataset数据集
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns>DataSet数据集</returns>
+        public DataSet LoadExcelToDataSet(string filePath)
         {
-            // 连接字符串
-            string connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePath + ";Extended Properties='Excel 12.0;HDR=YES;IMEX=1'";
+            var dataSet = new DataSet();
 
-            // 创建连接
-            OleDbConnection conn = new OleDbConnection(connString);
-
-            // 打开连接
-            conn.Open();
-
-            // 获取Excel文件中所有工作表的名字
-            DataTable dtSheetName = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-
-            // 声明DataSet1对象
-            DataSet ds = new DataSet();
-
-            // 遍历所有工作表
-            foreach (DataRow dr in dtSheetName.Rows)
+            // 打开Excel文件
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
-                string sheetName = dr["TABLE_NAME"].ToString();
+                IWorkbook workbook = Path.GetExtension(filePath) != ".xls" ? new XSSFWorkbook(stream) : new HSSFWorkbook(stream);
 
-                // 查询语句
-                string sql = "select * from [" + sheetName + "]";
+                for (int k = 0; k < workbook.NumberOfSheets; k++)
+                {
+                    var sheet = workbook.GetSheetAt(k);
+                    var dataTable = new DataTable(sheet.SheetName);
 
-                // 执行查询语句
-                OleDbDataAdapter adp = new OleDbDataAdapter(sql, conn);
+                    // 读取表头
+                    var headerRow = sheet.GetRow(0);
+                    for (int i = 0; i < headerRow.Cells.Count; i++)
+                    {
+                        dataTable.Columns.Add(headerRow.Cells[i].ToString());
+                    }
 
-                // 创建一个新的DataTable来存储工作表数据
-                DataTable dt = new DataTable();
+                    // 读取数据行
+                    for (int i = 1; i <= sheet.LastRowNum; i++)
+                    {
+                        var row = sheet.GetRow(i);
+                        if (row == null) continue;
 
-                // 将查询结果填充到DataTable中
-                adp.Fill(dt);
+                        var dataRow = dataTable.NewRow();
+                        for (int j = 0; j < row.Cells.Count; j++)
+                        {
+                            var cell = row.GetCell(j);
+                            if (cell == null) continue;
 
-                // 将DataTable添加到DataSet中，并以工作表名命名
-                ds.Tables.Add(dt);
-                ds.Tables[ds.Tables.Count - 1].TableName = sheetName.Replace("$", "");
+                            // 根据单元格的数据类型进行转换
+                            switch (cell.CellType)
+                            {
+                                case CellType.String:
+                                    dataRow[j] = cell.StringCellValue;
+                                    break;
+                                case CellType.Numeric:
+                                    dataRow[j] = DateUtil.IsCellDateFormatted(cell) ? cell.DateCellValue : cell.NumericCellValue;
+                                    break;
+                                case CellType.Boolean:
+                                    dataRow[j] = cell.BooleanCellValue;
+                                    break;
+                                case CellType.Formula: // 新增对公式单元格的处理
+                                    switch (cell.CachedFormulaResultType)
+                                    {
+                                        case CellType.String:
+                                            dataRow[j] = cell.StringCellValue;
+                                            break;
+                                        case CellType.Numeric:
+                                            dataRow[j] = DateUtil.IsCellDateFormatted(cell) ? cell.DateCellValue : cell.NumericCellValue;
+                                            break;
+                                        case CellType.Boolean:
+                                            dataRow[j] = cell.BooleanCellValue;
+                                            break;
+                                        default:
+                                            dataRow[j] = "未知类型";
+                                            break;
+                                    }
+                                    break;
+                                default:
+                                    dataRow[j] = cell.ToString();
+                                    break;
+                            }
+                        }
+
+                        dataTable.Rows.Add(dataRow);
+                    }
+
+                    dataSet.Tables.Add(dataTable);
+                }
             }
 
-            // 关闭连接
-            conn.Close();
-
-            return ds;
+            return dataSet;
         }
 
-        public void ExportDataToExcel(DataGridView dgv)
+        /// <summary>
+        /// 函数，导出DataGridView数据集到Excel文件
+        /// </summary>
+        /// <param name="dataGridView"></param>
+        public void SaveDataGridViewToExcel(DataGridView dataGridView)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Title = "导出Excel文件";
-            saveFileDialog.Filter = "Microsoft Office Excel 工作簿 (*.xls)|*.xls";
-            saveFileDialog.FilterIndex = 1;
-            saveFileDialog.AddExtension = true;
-            saveFileDialog.RestoreDirectory = true;
+            // 创建一个文件选择器
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Excel files (*.xlsx)|*.xlsx",
+                FilterIndex = 2,
+                RestoreDirectory = true,
+                FileName = "ExportedData.xlsx" // 默认的文件名
+            };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                string localFilePath = saveFileDialog.FileName.ToString();
-                int TotalCount;
-                int RowRead = 0;
-                int Percent = 0;
-                TotalCount = dgv.Rows.Count;
+                var filePath = saveFileDialog.FileName;
 
-                Stream myStream = saveFileDialog.OpenFile();
-                StreamWriter sw = new StreamWriter(myStream, Encoding.Unicode);//Unicode编码可避免显示乱码问题
-                string strHeader = "";
-                Stopwatch timer = new Stopwatch();
-                timer.Start();
+                var workbook = new XSSFWorkbook();
+                var sheet = workbook.CreateSheet("Sheet1");
 
-                try
+                // 写入表头
+                var headerRow = sheet.CreateRow(0);
+                for (int i = 0; i < dataGridView.Columns.Count; i++)
                 {
-                    for (int i = 0; i < dgv.Columns.Count; i++)
+                    var cell = headerRow.CreateCell(i);
+                    cell.SetCellValue(dataGridView.Columns[i].HeaderText);
+                }
+
+                // 写入数据行
+                for (int i = 0; i < dataGridView.Rows.Count; i++)
+                {
+                    var row = sheet.CreateRow(i + 1);
+                    for (int j = 0; j < dataGridView.Columns.Count; j++)
                     {
-                        if (i > 0)
+                        var cell = row.CreateCell(j);
+
+                        // 根据单元格的数据类型进行转换
+                        if (dataGridView[j, i].Value != null)
                         {
-                            strHeader += "\t";
-                        }
-                        if (dgv.Columns[i].HeaderText.ToString() != null)
-                        {
-                            strHeader += dgv.Columns[i].HeaderText.ToString();
-                        }
-                        else
-                        {
-                            strHeader += "";
+                            switch (dataGridView[j, i].ValueType.Name)
+                            {
+                                case "String":
+                                    cell.SetCellValue(dataGridView[j, i].Value.ToString());
+                                    break;
+                                case "DateTime":
+                                    cell.SetCellValue((DateTime)dataGridView[j, i].Value);
+                                    break;
+                                case "Boolean":
+                                    cell.SetCellValue((bool)dataGridView[j, i].Value);
+                                    break;
+                                case "Int32":
+                                case "Double":
+                                case "Decimal":
+                                    cell.SetCellType(CellType.Numeric); // 设置单元格类型为数字
+                                    cell.SetCellValue(Convert.ToDouble(dataGridView[j, i].Value));
+                                    break;
+                                default:
+                                    cell.SetCellValue(dataGridView[j, i].Value.ToString());
+                                    break;
+                            }
                         }
                     }
-                    sw.WriteLine(strHeader);
-
-                    for (int i = 0; i < dgv.Rows.Count; i++)
-                    {
-                        RowRead++;
-                        Percent = 100 * RowRead / TotalCount;
-                        string strData = "";
-
-                        for (int j = 0; j < dgv.Columns.Count; j++)
-                        {
-                            if (j > 0)
-                            {
-                                strData += "\t";
-                            }
-
-                            if (dgv.Rows[i].Cells[j].Value != null)
-                            {
-                                strData += dgv.Rows[i].Cells[j].Value.ToString();
-                            }
-                            else
-                            {
-                                strData += "";
-                            }
-                        }
-                        sw.WriteLine(strData);
-                    }
-
-                    sw.Close();
-                    myStream.Close();
-                    timer.Reset();
-                    timer.Stop();
                 }
-                catch (Exception ex)
+
+                // 保存到文件
+                using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                 {
-                    MessageBox.Show(ex.Message, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                finally
-                {
-                    sw.Close();
-                    myStream.Close();
-                    timer.Stop();
+                    workbook.Write(stream);
                 }
 
-                if (MessageBox.Show("导出成功，是否立即打开？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
-                {
-                    System.Diagnostics.Process.Start(localFilePath);
-                }
+                MessageBox.Show("文件已成功保存！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information); // 显示消息框提示
             }
         }
+
     }
 }
