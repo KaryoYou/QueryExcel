@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Text;
 using System;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace QueryExcel
 {
@@ -82,7 +83,7 @@ namespace QueryExcel
                 TotalCount = dgv.Rows.Count;
 
                 Stream myStream = saveFileDialog.OpenFile();
-                StreamWriter sw = new StreamWriter(myStream, Encoding.GetEncoding("gb2312"));
+                StreamWriter sw = new StreamWriter(myStream, Encoding.Unicode);//Unicode编码可避免显示乱码问题
                 string strHeader = "";
                 Stopwatch timer = new Stopwatch();
                 timer.Start();
@@ -95,7 +96,14 @@ namespace QueryExcel
                         {
                             strHeader += "\t";
                         }
-                        strHeader += dgv.Columns[i].HeaderText.ToString();
+                        if (dgv.Columns[i].HeaderText.ToString() != null)
+                        {
+                            strHeader += dgv.Columns[i].HeaderText.ToString();
+                        }
+                        else
+                        {
+                            strHeader += "";
+                        }
                     }
                     sw.WriteLine(strHeader);
 
