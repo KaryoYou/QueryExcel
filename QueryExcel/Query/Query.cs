@@ -5,10 +5,10 @@ namespace QueryExcel
 {
     internal class Query
     {
-        public readonly DataGridView result;
+        //public readonly DataGridView result;
 
-        public Query(DataTable dt,string filter) 
-        {
+        //public Query(DataTable dt,string filter) 
+        //{
             // 获取查询条件
             //string name = "John";
             //int age = 25;
@@ -23,7 +23,7 @@ namespace QueryExcel
 
             // 将过滤后的数据绑定到 DataGridView 控件中
             //result.DataSource = rows.CopyToDataTable();---------------
-        }
+        //}
 
 
     }

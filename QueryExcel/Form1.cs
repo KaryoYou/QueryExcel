@@ -88,7 +88,7 @@ namespace QueryExcel
                     dataSet1.Clear(); // 清空dataSetd对象
                     listBox1.Items.Clear(); // 清空listBox1内容
 
-                    ExcelHandler excelHandler = new ExcelHandler();
+                    ExcelHandler excelHandler = new();
                     dataSet1 = excelHandler.ImportExcelToDataSet(textBox1.Text);  // 读取Excel内容到dataSetd对象
 
                     for (int i = 0; i <= dataSet1.Tables.Count - 1; i++) // 读取tabcontrol除第一页页面外的所有TabPage标题到listBox1中
@@ -121,7 +121,7 @@ namespace QueryExcel
                 this.dataGridView1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到DataGridView
 
                 // 将Datable中所有列名绑定到bindingSource
-                List<string> columnNames = new List<string>();
+                List<string> columnNames = new();
                 foreach (DataColumn column in dataSet1.Tables[tableName].Columns)
                 {
                     columnNames.Add(column.ColumnName);
@@ -143,7 +143,7 @@ namespace QueryExcel
         /// <param name="e"></param>
         private void Button4_Click(object sender, EventArgs e)
         {
-            ExcelHandler excelHandler = new ExcelHandler();
+            ExcelHandler excelHandler = new();
             excelHandler.ExportExcel(dataGridView1);
         }
 
@@ -154,7 +154,7 @@ namespace QueryExcel
         /// <param name="e"></param>
         private void Button5_Click(object sender, EventArgs e)
         {
-            ExcelHandler excelHandler = new ExcelHandler();
+            ExcelHandler excelHandler = new();
             excelHandler.ExportExcel(dataSet1);
         }
     }
