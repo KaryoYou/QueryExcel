@@ -10,7 +10,6 @@ namespace QueryExcel
 {
     internal class Excel
     {
-
         /// <summary>
         /// 静态构造函数
         /// </summary>
@@ -38,11 +37,33 @@ namespace QueryExcel
                     var sheet = workbook.GetSheetAt(k);
                     var dataTable = new DataTable(sheet.SheetName);
 
+                    // 获取所有已使用的单元格最后一列的列数
+                    int cellCount = 0;
+                    for (int i = sheet.LastRowNum; i >= 0; i--)
+                    {
+                        var row = sheet.GetRow(i);
+                        if (row != null)
+                        {
+                            cellCount = row.LastCellNum;
+                            break;
+                        }
+                    }
+
                     // 读取表头
                     var headerRow = sheet.GetRow(0);
-                    for (int i = 0; i < headerRow.Cells.Count; i++)
+                    if (headerRow == null)
                     {
-                        dataTable.Columns.Add(headerRow.Cells[i].ToString());
+                        headerRow = sheet.CreateRow(0);
+                    }
+                    for (int i = 0; i < cellCount; i++)
+                    {
+                        var cell = headerRow.GetCell(i);
+                        if (cell == null || string.IsNullOrEmpty(cell.ToString())) // 如果表头单元格为空，则创建默认列名
+                        {
+                            cell = headerRow.CreateCell(i);
+                            cell.SetCellValue($"Column{GetColumnName(i + 1)}");
+                        }
+                        dataTable.Columns.Add(cell.ToString());
                     }
 
                     // 读取数据行
@@ -52,44 +73,13 @@ namespace QueryExcel
                         if (row == null) continue;
 
                         var dataRow = dataTable.NewRow();
-                        for (int j = 0; j < row.Cells.Count; j++)
+                        for (int j = 0; j < dataTable.Columns.Count; j++) // 只处理包含数据的单元格
                         {
                             var cell = row.GetCell(j);
                             if (cell == null) continue;
 
                             // 根据单元格的数据类型进行转换
-                            switch (cell.CellType)
-                            {
-                                case CellType.String:
-                                    dataRow[j] = cell.StringCellValue;
-                                    break;
-                                case CellType.Numeric:
-                                    dataRow[j] = DateUtil.IsCellDateFormatted(cell) ? cell.DateCellValue : cell.NumericCellValue;
-                                    break;
-                                case CellType.Boolean:
-                                    dataRow[j] = cell.BooleanCellValue;
-                                    break;
-                                case CellType.Formula: // 新增对公式单元格的处理
-                                    switch (cell.CachedFormulaResultType)
-                                    {
-                                        case CellType.String:
-                                            dataRow[j] = cell.StringCellValue;
-                                            break;
-                                        case CellType.Numeric:
-                                            dataRow[j] = DateUtil.IsCellDateFormatted(cell) ? cell.DateCellValue : cell.NumericCellValue;
-                                            break;
-                                        case CellType.Boolean:
-                                            dataRow[j] = cell.BooleanCellValue;
-                                            break;
-                                        default:
-                                            dataRow[j] = "未知类型";
-                                            break;
-                                    }
-                                    break;
-                                default:
-                                    dataRow[j] = cell.ToString();
-                                    break;
-                            }
+                            dataRow[j] = GetCellValue(cell);
                         }
 
                         dataTable.Rows.Add(dataRow);
@@ -178,5 +168,52 @@ namespace QueryExcel
             }
         }
 
+        /// <summary>
+        /// 用于获取单元格的值 || 根据单元格的类型来返回相应的值
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <returns></returns>
+        private object GetCellValue(ICell cell)
+        {
+            switch (cell.CellType)
+            {
+                case CellType.String:
+                case CellType.Formula when cell.CachedFormulaResultType == CellType.String:
+                    // 如果单元格是字符串类型，返回字符串值
+                    return cell.StringCellValue;
+                case CellType.Numeric:
+                case CellType.Formula when cell.CachedFormulaResultType == CellType.Numeric:
+                    // 如果单元格是数字类型，根据是否是日期格式返回日期值或数字值
+                    return DateUtil.IsCellDateFormatted(cell) ? cell.DateCellValue : cell.NumericCellValue;
+                case CellType.Boolean:
+                case CellType.Formula when cell.CachedFormulaResultType == CellType.Boolean:
+                    // 如果单元格是布尔类型，返回布尔值
+                    return cell.BooleanCellValue;
+                default:
+                    // 对于其他类型，返回"未知类型"
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// 用于根据列的索引生成列名 || 它使用了Excel列名的命名规则，即A-Z之后是AA-AZ，然后是BA-BZ，以此类推
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        private string GetColumnName(int index)
+        {
+            int dividend = index;
+            string columnName = String.Empty;
+            int modulo;
+
+            while (dividend > 0)
+            {
+                modulo = (dividend - 1) % 26;
+                columnName = Convert.ToChar(65 + modulo).ToString() + columnName;
+                dividend = (int)((dividend - modulo) / 26);
+            }
+
+            return columnName;
+        }
     }
 }

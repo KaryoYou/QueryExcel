@@ -73,8 +73,8 @@ namespace QueryExcel
         /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
-            try
-            {
+            //try
+            //{
                 // 在这里放置可能会抛出异常的代码
 
                 //获取文件路径
@@ -98,12 +98,12 @@ namespace QueryExcel
                         listBox1.Items.Add(dataSet1.Tables[i].TableName);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                // 在这里处理异常
-                MessageBox.Show(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    // 在这里处理异常
+            //    MessageBox.Show(ex.Message);
+            //}
         }
 
         /// <summary>
