@@ -29,12 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet1 = new System.Data.DataSet();
+            this.Column2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.button3 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
@@ -43,29 +50,22 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.dataSet1 = new System.Data.DataSet();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.button5 = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -127,6 +127,71 @@
             this.dataGridView2.RowTemplate.Height = 23;
             this.dataGridView2.Size = new System.Drawing.Size(588, 128);
             this.dataGridView2.TabIndex = 4;
+            // 
+            // Column1
+            // 
+            this.Column1.DataSource = this.bindingSource1;
+            this.Column1.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.Column1.DisplayStyleForCurrentCellOnly = true;
+            this.Column1.HeaderText = "列名";
+            this.Column1.Name = "Column1";
+            // 
+            // bindingSource1
+            // 
+            this.bindingSource1.DataSource = this.dataSet1;
+            this.bindingSource1.Position = 0;
+            // 
+            // dataSet1
+            // 
+            this.dataSet1.DataSetName = "NewDataSet";
+            // 
+            // Column2
+            // 
+            dataGridViewCellStyle1.NullValue = "等于";
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Column2.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.Column2.HeaderText = "比较运算符";
+            this.Column2.Items.AddRange(new object[] {
+            "等于",
+            "不等于",
+            "包含",
+            "不包含",
+            "大于等于",
+            "小于等于",
+            "大于",
+            "不大于",
+            "小于",
+            "不小于",
+            "之前",
+            "之后",
+            "在...之内",
+            "从...到..."});
+            this.Column2.Name = "Column2";
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "值1";
+            this.Column3.Name = "Column3";
+            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "值2";
+            this.Column4.Name = "Column4";
+            this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Column5
+            // 
+            dataGridViewCellStyle2.NullValue = "且";
+            this.Column5.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Column5.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
+            this.Column5.HeaderText = "多条件连接符";
+            this.Column5.Items.AddRange(new object[] {
+            "且",
+            "或"});
+            this.Column5.Name = "Column5";
             // 
             // button3
             // 
@@ -218,10 +283,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // dataSet1
-            // 
-            this.dataSet1.DataSetName = "NewDataSet";
-            // 
             // textBox1
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.textBox1, 2);
@@ -259,6 +320,16 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 236);
             this.tableLayoutPanel1.TabIndex = 21;
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(687, 3);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(94, 26);
+            this.button5.TabIndex = 22;
+            this.button5.Text = "导出所有数据";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -277,76 +348,6 @@
             this.splitContainer1.SplitterDistance = 236;
             this.splitContainer1.TabIndex = 22;
             // 
-            // bindingSource1
-            // 
-            this.bindingSource1.DataSource = this.dataSet1;
-            this.bindingSource1.Position = 0;
-            // 
-            // Column1
-            // 
-            this.Column1.DataSource = this.bindingSource1;
-            this.Column1.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.Column1.DisplayStyleForCurrentCellOnly = true;
-            this.Column1.HeaderText = "列名";
-            this.Column1.Name = "Column1";
-            // 
-            // Column2
-            // 
-            dataGridViewCellStyle7.NullValue = "等于";
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle7;
-            this.Column2.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.Column2.HeaderText = "比较运算符";
-            this.Column2.Items.AddRange(new object[] {
-            "等于",
-            "不等于",
-            "包含",
-            "不包含",
-            "大于等于",
-            "小于等于",
-            "大于",
-            "不大于",
-            "小于",
-            "不小于",
-            "之前",
-            "之后",
-            "在...之内",
-            "从...到..."});
-            this.Column2.Name = "Column2";
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "值1";
-            this.Column3.Name = "Column3";
-            this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "值2";
-            this.Column4.Name = "Column4";
-            this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Column5
-            // 
-            dataGridViewCellStyle8.NullValue = "且";
-            this.Column5.DefaultCellStyle = dataGridViewCellStyle8;
-            this.Column5.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.Nothing;
-            this.Column5.HeaderText = "多条件连接符";
-            this.Column5.Items.AddRange(new object[] {
-            "且",
-            "或"});
-            this.Column5.Name = "Column5";
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(687, 3);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(94, 26);
-            this.button5.TabIndex = 22;
-            this.button5.Text = "导出所有数据";
-            this.button5.UseVisualStyleBackColor = true;
-            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -364,15 +365,15 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
 
         }

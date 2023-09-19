@@ -19,10 +19,10 @@ namespace QueryExcel
 
             // 使用 SQL 语句过滤数据
             //string filter = string.Format("Name LIKE '%{0}%' AND Age = {1} AND Gender = '{2}'", name, age, gender);
-            DataRow[] rows = dt.Select(filter);
+            //DataRow[] rows = dt.Select(filter);---------------
 
             // 将过滤后的数据绑定到 DataGridView 控件中
-            result.DataSource = rows.CopyToDataTable();
+            //result.DataSource = rows.CopyToDataTable();---------------
         }
 
 

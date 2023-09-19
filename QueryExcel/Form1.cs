@@ -1,9 +1,7 @@
-﻿using NPOI.POIFS.FileSystem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Linq.Expressions;
 using System.Windows.Forms;
 
 namespace QueryExcel
@@ -90,8 +88,8 @@ namespace QueryExcel
                     dataSet1.Clear(); // 清空dataSetd对象
                     listBox1.Items.Clear(); // 清空listBox1内容
 
-                    Excel excel = new Excel(); //初始化Excel类
-                    dataSet1 = excel.LoadExcelToDataSet(textBox1.Text);  // 读取Excel内容到dataSetd对象
+                    ExcelHandler excelHandler = new ExcelHandler();
+                    dataSet1 = excelHandler.ImportExcelToDataSet(textBox1.Text);  // 读取Excel内容到dataSetd对象
 
                     for (int i = 0; i <= dataSet1.Tables.Count - 1; i++) // 读取tabcontrol除第一页页面外的所有TabPage标题到listBox1中
                     {
@@ -119,6 +117,7 @@ namespace QueryExcel
 
             if (dataSet1.Tables.Contains(tableName)) // 检查DataSet中是否存在这个DataTable
             {
+                this.dataGridView1.DataSource = null;
                 this.dataGridView1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到DataGridView
 
                 // 将Datable中所有列名绑定到bindingSource
@@ -127,6 +126,8 @@ namespace QueryExcel
                 {
                     columnNames.Add(column.ColumnName);
                 }
+
+                this.bindingSource1.DataSource = null;
                 this.bindingSource1.DataSource = columnNames;
             }
             else
@@ -142,8 +143,14 @@ namespace QueryExcel
         /// <param name="e"></param>
         private void button4_Click(object sender, EventArgs e)
         {
-            Excel excel = new Excel();
-            excel.SaveDataGridViewToExcel(dataGridView1);
+            ExcelHandler excelHandler = new ExcelHandler();
+            excelHandler.ExportExcel(dataGridView1);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            ExcelHandler excelHandler = new ExcelHandler();
+            excelHandler.ExportExcel(dataSet1);
         }
     }
 }

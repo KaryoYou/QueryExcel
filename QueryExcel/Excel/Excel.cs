@@ -1,219 +1,139 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Data;
+using System.Collections.Generic;
 using System.Windows.Forms;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
-using System;
+using MiniExcelLibs;
+using System.Linq;
 
-namespace QueryExcel
+public class ExcelHandler
 {
-    internal class Excel
+    /// <summary>
+    /// 导入函数
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns>DataSet对象</returns>
+    public DataSet ImportExcelToDataSet(string filePath)
     {
-        /// <summary>
-        /// 静态构造函数
-        /// </summary>
-        public Excel()
-        {
-        
-        }
+        // 创建一个新的DataSet
+        DataSet dataSet = new DataSet();
 
-        /// <summary>
-        /// 函数，读取Excel文件数据到Dataset数据集
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns>DataSet数据集</returns>
-        public DataSet LoadExcelToDataSet(string filePath)
-        {
-            var dataSet = new DataSet();
+        bool readState = false;
 
-            // 打开Excel文件
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+        try
+        {
+            // 获取Excel文件中所有的工作表名
+            var sheetNames = MiniExcel.GetSheetNames(filePath);
+
+            readState = true;
+
+            // 遍历每一个工作表
+            foreach (var sheetName in sheetNames)
             {
-                IWorkbook workbook = Path.GetExtension(filePath) != ".xls" ? new XSSFWorkbook(stream) : new HSSFWorkbook(stream);
+                // 使用MiniExcel的Query方法获取工作表的数据
+                var data = MiniExcel.Query(filePath, sheetName: sheetName, useHeaderRow: false).ToList();
 
-                for (int k = 0; k < workbook.NumberOfSheets; k++)
+                // 创建一个新的DataTable，并将工作表的名字设为DataTable的TableName
+                DataTable dataTable = new DataTable(sheetName);
+
+                // 将数据添加到DataTable中
+                bool columnsDefined = false;
+                foreach (var row in data)
                 {
-                    var sheet = workbook.GetSheetAt(k);
-                    var dataTable = new DataTable(sheet.SheetName);
-
-                    // 获取所有已使用的单元格最后一列的列数
-                    int cellCount = 0;
-                    for (int i = sheet.LastRowNum; i >= 0; i--)
+                    var rowDict = (IDictionary<string, object>)row;
+                    if (!columnsDefined)
                     {
-                        var row = sheet.GetRow(i);
-                        if (row != null)
+                        foreach (var column in rowDict.Keys)
                         {
-                            cellCount = row.LastCellNum;
-                            break;
+                            string columnName = rowDict[column] != null ? rowDict[column].ToString() : column;
+                            dataTable.Columns.Add(columnName);
+                        }
+                        columnsDefined = true;
+                        continue;
+                    }
+
+                    DataRow dataRow = dataTable.NewRow();
+                    foreach (DataColumn column in dataTable.Columns)
+                    {
+                        if (rowDict.ContainsKey(column.ColumnName) && rowDict[column.ColumnName] != null)
+                        {
+                            dataRow[column.ColumnName] = rowDict[column.ColumnName];
                         }
                     }
 
-                    // 读取表头
-                    var headerRow = sheet.GetRow(0);
-                    if (headerRow == null)
-                    {
-                        headerRow = sheet.CreateRow(0);
-                    }
-                    for (int i = 0; i < cellCount; i++)
-                    {
-                        var cell = headerRow.GetCell(i);
-                        if (cell == null || string.IsNullOrEmpty(cell.ToString())) // 如果表头单元格为空，则创建默认列名
-                        {
-                            cell = headerRow.CreateCell(i);
-                            cell.SetCellValue($"Column{GetColumnName(i + 1)}");
-                        }
-                        dataTable.Columns.Add(cell.ToString());
-                    }
-
-                    // 读取数据行
-                    for (int i = 1; i <= sheet.LastRowNum; i++)
-                    {
-                        var row = sheet.GetRow(i);
-                        if (row == null) continue;
-
-                        var dataRow = dataTable.NewRow();
-                        for (int j = 0; j < dataTable.Columns.Count; j++) // 只处理包含数据的单元格
-                        {
-                            var cell = row.GetCell(j);
-                            if (cell == null) continue;
-
-                            // 根据单元格的数据类型进行转换
-                            dataRow[j] = GetCellValue(cell);
-                        }
-
-                        dataTable.Rows.Add(dataRow);
-                    }
-
-                    dataSet.Tables.Add(dataTable);
-                }
-            }
-
-            return dataSet;
-        }
-
-        /// <summary>
-        /// 函数，导出DataGridView数据集到Excel文件
-        /// </summary>
-        /// <param name="dataGridView"></param>
-        public void SaveDataGridViewToExcel(DataGridView dataGridView)
-        {
-            // 创建一个文件选择器
-            var saveFileDialog = new SaveFileDialog
-            {
-                Filter = "Excel files (*.xlsx)|*.xlsx",
-                FilterIndex = 2,
-                RestoreDirectory = true,
-                FileName = "ExportedData.xlsx" // 默认的文件名
-            };
-
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                var filePath = saveFileDialog.FileName;
-
-                var workbook = new XSSFWorkbook();
-                var sheet = workbook.CreateSheet("Sheet1");
-
-                // 写入表头
-                var headerRow = sheet.CreateRow(0);
-                for (int i = 0; i < dataGridView.Columns.Count; i++)
-                {
-                    var cell = headerRow.CreateCell(i);
-                    cell.SetCellValue(dataGridView.Columns[i].HeaderText);
+                    // 添加行到DataTable
+                    dataTable.Rows.Add(dataRow);
                 }
 
-                // 写入数据行
-                for (int i = 0; i < dataGridView.Rows.Count; i++)
-                {
-                    var row = sheet.CreateRow(i + 1);
-                    for (int j = 0; j < dataGridView.Columns.Count; j++)
-                    {
-                        var cell = row.CreateCell(j);
-
-                        // 根据单元格的数据类型进行转换
-                        if (dataGridView[j, i].Value != null)
-                        {
-                            switch (dataGridView[j, i].ValueType.Name)
-                            {
-                                case "String":
-                                    cell.SetCellValue(dataGridView[j, i].Value.ToString());
-                                    break;
-                                case "DateTime":
-                                    cell.SetCellValue((DateTime)dataGridView[j, i].Value);
-                                    break;
-                                case "Boolean":
-                                    cell.SetCellValue((bool)dataGridView[j, i].Value);
-                                    break;
-                                case "Int32":
-                                case "Double":
-                                case "Decimal":
-                                    cell.SetCellType(CellType.Numeric); // 设置单元格类型为数字
-                                    cell.SetCellValue(Convert.ToDouble(dataGridView[j, i].Value));
-                                    break;
-                                default:
-                                    cell.SetCellValue(dataGridView[j, i].Value.ToString());
-                                    break;
-                            }
-                        }
-                    }
-                }
-
-                // 保存到文件
-                using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                {
-                    workbook.Write(stream);
-                }
-
-                MessageBox.Show("文件已成功保存！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information); // 显示消息框提示
+                // 将DataTable添加到DataSet
+                dataSet.Tables.Add(dataTable);
             }
         }
-
-        /// <summary>
-        /// 用于获取单元格的值 || 根据单元格的类型来返回相应的值
-        /// </summary>
-        /// <param name="cell"></param>
-        /// <returns></returns>
-        private object GetCellValue(ICell cell)
+        catch (Exception ex)
         {
-            switch (cell.CellType)
+            // 如果导出过程中发生错误，显示错误消息框
+            MessageBox.Show($"读取失败: {ex.Message}", "错误信息", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            if (!readState)
             {
-                case CellType.String:
-                case CellType.Formula when cell.CachedFormulaResultType == CellType.String:
-                    // 如果单元格是字符串类型，返回字符串值
-                    return cell.StringCellValue;
-                case CellType.Numeric:
-                case CellType.Formula when cell.CachedFormulaResultType == CellType.Numeric:
-                    // 如果单元格是数字类型，根据是否是日期格式返回日期值或数字值
-                    return DateUtil.IsCellDateFormatted(cell) ? cell.DateCellValue : cell.NumericCellValue;
-                case CellType.Boolean:
-                case CellType.Formula when cell.CachedFormulaResultType == CellType.Boolean:
-                    // 如果单元格是布尔类型，返回布尔值
-                    return cell.BooleanCellValue;
-                default:
-                    // 对于其他类型，返回"未知类型"
-                    return null;
+                MessageBox.Show($"请确认文件格式是否兼容表中的所有内容，\n" +
+                    $"不兼容的文件格式会影响文件结构的完整性，本程序将无法正常读取。\n" +
+                    $"建议：使用Office Excel应用程序完成修复：文件->信息->转换", "提示信息",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+        return dataSet;
+    }
 
-        /// <summary>
-        /// 用于根据列的索引生成列名 || 它使用了Excel列名的命名规则，即A-Z之后是AA-AZ，然后是BA-BZ，以此类推
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        private string GetColumnName(int index)
+    /// <summary>
+    /// 导出函数
+    /// </summary>
+    /// <param name="dataGridView"></param>
+    public void ExportExcel(object dataSource)
+    {
+        // 创建一个保存文件对话框
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "Excel Files|*.xlsx";
+        saveFileDialog.Title = "Save an Excel File";
+        saveFileDialog.FileName = "default.xlsx";  // 默认文件名
+
+        // 显示保存文件对话框
+        if (saveFileDialog.ShowDialog() == DialogResult.OK)
         {
-            int dividend = index;
-            string columnName = String.Empty;
-            int modulo;
+            // 获取用户选择的文件路径
+            string filePath = saveFileDialog.FileName;
 
-            while (dividend > 0)
+            try
             {
-                modulo = (dividend - 1) % 26;
-                columnName = Convert.ToChar(65 + modulo).ToString() + columnName;
-                dividend = (int)((dividend - modulo) / 26);
-            }
+                // 如果文件已存在，删除它
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
 
-            return columnName;
+                // 检查数据源类型并执行相应操作
+                if (dataSource is DataGridView)
+                {
+                    DataTable dataTable = (DataTable)((DataGridView)dataSource).DataSource;
+                    MiniExcel.SaveAs(filePath, dataTable, printHeader: true, sheetName:dataTable.TableName);
+                }
+                else if (dataSource is DataSet)
+                {
+                    MiniExcel.SaveAs(filePath, dataSource, printHeader: true);
+                }
+                else
+                {
+                    throw new ArgumentException("无效的数据源类型。数据源必须是 DataGridView 或 DataSet。");
+                }
+
+                // 显示导出成功的消息框
+                MessageBox.Show("导出成功!", "提示信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                // 如果导出过程中发生错误，显示错误消息框
+                MessageBox.Show($"导出失败: {ex.Message}", "错误信息", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
