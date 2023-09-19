@@ -44,7 +44,7 @@ namespace QueryExcel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void TextBox1_TextChanged(object sender, EventArgs e)
         {
             TextBox textBox = sender as TextBox;
             string filePath = textBox.Text;
@@ -69,7 +69,7 @@ namespace QueryExcel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             //try
             //{
@@ -109,7 +109,7 @@ namespace QueryExcel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ListBox lb = sender as ListBox; // 声明ListBox控件事件触发对象
 
@@ -137,17 +137,22 @@ namespace QueryExcel
         }
 
         /// <summary>
-        /// 描述：点击按钮时，触发事件； || 实现：导出数据到新的Excel文件。
+        /// 描述：点击按钮时，触发事件； || 实现：导出DataGridView数据到新的Excel文件。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button4_Click(object sender, EventArgs e)
+        private void Button4_Click(object sender, EventArgs e)
         {
             ExcelHandler excelHandler = new ExcelHandler();
             excelHandler.ExportExcel(dataGridView1);
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 描述：点击按钮时，触发事件； || 实现：导出DataSet数据到新的Excel文件。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button5_Click(object sender, EventArgs e)
         {
             ExcelHandler excelHandler = new ExcelHandler();
             excelHandler.ExportExcel(dataSet1);

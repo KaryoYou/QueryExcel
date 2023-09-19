@@ -1,80 +1,89 @@
 ﻿using System;
-using System.IO;
-using System.Data;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Linq;
 using System.Windows.Forms;
 using MiniExcelLibs;
-using System.Linq;
 
 public class ExcelHandler
 {
     /// <summary>
-    /// 导入函数
+    /// 将Excel文件导入到DataSet中
     /// </summary>
-    /// <param name="filePath"></param>
+    /// <param name="filePath">文件路径</param>
     /// <returns>DataSet对象</returns>
     public DataSet ImportExcelToDataSet(string filePath)
     {
-        // 创建一个新的DataSet
-        DataSet dataSet = new DataSet();
-
-        bool readState = false;
+        var dataSet = new DataSet();
+        bool isReadSuccessful = false;
 
         try
         {
-            // 获取Excel文件中所有的工作表名
+            // 获取所有工作表的名称
             var sheetNames = MiniExcel.GetSheetNames(filePath);
 
-            readState = true;
-
-            // 遍历每一个工作表
             foreach (var sheetName in sheetNames)
             {
+                // 为每个工作表获取行的集合
                 // 使用MiniExcel的Query方法获取工作表的数据
-                var data = MiniExcel.Query(filePath, sheetName: sheetName, useHeaderRow: false).ToList();
+                var rows = MiniExcel.Query(filePath, sheetName: sheetName, useHeaderRow: false).ToList();
+                isReadSuccessful = true;
 
-                // 创建一个新的DataTable，并将工作表的名字设为DataTable的TableName
-                DataTable dataTable = new DataTable(sheetName);
+                // 为每个工作表创建一个新的DataTable，并使用工作表名称命名
+                var dataTable = new DataTable(sheetName);
 
-                // 将数据添加到DataTable中
-                bool columnsDefined = false;
-                foreach (var row in data)
+                // 标记是否为第一行（列名行）
+                bool isFirstRow = true;
+
+                // 遍历每一行
+                foreach (var row in rows)
                 {
-                    var rowDict = (IDictionary<string, object>)row;
-                    if (!columnsDefined)
+                    var rowDictionary = (IDictionary<string, object>)row;
+
+                    // 如果是第一行（列名行）
+                    if (isFirstRow)
                     {
-                        foreach (var column in rowDict.Keys)
+                        // 遍历每一列
+                        foreach (var column in rowDictionary.Keys)
                         {
-                            string columnName = rowDict[column] != null ? rowDict[column].ToString() : column;
+                            // 如果单元格为空，则使用单元格索引作为列名；否则，使用单元格值作为列名
+                            string columnName = rowDictionary[column] != null ? rowDictionary[column].ToString() : column;
+                            // 将列添加到DataTable中
                             dataTable.Columns.Add(columnName);
                         }
-                        columnsDefined = true;
-                        continue;
-                    }
 
-                    DataRow dataRow = dataTable.NewRow();
-                    foreach (DataColumn column in dataTable.Columns)
+                        // 标记已处理完第一行（列名行）
+                        isFirstRow = false;
+                    }
+                    else  // 如果不是第一行（数据行）
                     {
-                        if (rowDict.ContainsKey(column.ColumnName) && rowDict[column.ColumnName] != null)
-                        {
-                            dataRow[column.ColumnName] = rowDict[column.ColumnName];
-                        }
-                    }
+                        // 创建一个新的DataRow
+                        DataRow dataRow = dataTable.NewRow();
 
-                    // 添加行到DataTable
-                    dataTable.Rows.Add(dataRow);
+                        // 遍历每一列
+                        int columnIndex = 0;
+                        foreach (var column in rowDictionary.Keys)
+                        {
+                            // 将单元格的值添加到DataRow中
+                            dataRow[columnIndex] = rowDictionary[column];
+                            columnIndex++;
+                        }
+
+                        // 将DataRow添加到DataTable中
+                        dataTable.Rows.Add(dataRow);
+                    }
                 }
 
-                // 将DataTable添加到DataSet
+                // 将DataTable添加到DataSet中
                 dataSet.Tables.Add(dataTable);
             }
         }
         catch (Exception ex)
         {
-            // 如果导出过程中发生错误，显示错误消息框
-            MessageBox.Show($"读取失败: {ex.Message}", "错误信息", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"读取失败, {ex.Message}", "错误信息", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            if (!readState)
+            if (!isReadSuccessful)
             {
                 MessageBox.Show($"请确认文件格式是否兼容表中的所有内容，\n" +
                     $"不兼容的文件格式会影响文件结构的完整性，本程序将无法正常读取。\n" +
@@ -82,6 +91,7 @@ public class ExcelHandler
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+
         return dataSet;
     }
 
