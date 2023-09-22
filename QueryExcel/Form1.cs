@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace QueryExcel
@@ -165,86 +166,69 @@ namespace QueryExcel
         /// <param name="e"></param>
         private void Button2_Click(object sender, EventArgs e)
         {
-            int rowsIndexLast = dataGridView2.Rows.Count;
-            MessageBox.Show(rowsIndexLast.ToString());
-
-
             /*
              代码调试中......
              */
 
-            //获取过滤条件字符串
-            //foreach (DataRow row in dataGridView2.Rows)
-            //{
-            //    var rowDictionary = (IDictionary<string, object>)row;
-            //    foreach (var item in rowDictionary.Keys)
-            //    {
-            //        MessageBox.Show(item.ToString());
-            //    }
-            //}
+            string filter = ""; //过滤条件字符串
 
-            //string filter = "";
-           
-            /*
-            //遍历每一行 || 自定义筛选条件
-            for (int rowIndex = 0; rowIndex <= rowsIndexLast; rowIndex++) 
+            //遍历每一行,但不包括最后新建行 || 自定义筛选条件
+            foreach (DataGridViewRow row in dataGridView2.Rows)
             {
-                var row = filterTable.Rows[rowIndex];
-
-                //获取单元格的值
-                string Value1 = row[0].ToString();
-                string Value2 = row[1].ToString();
-                string Value3 = row[2].ToString();
-                string Value4 = row[3].ToString();
-                string Value5 = row[4].ToString();
-
-                // 获取单元格的名
-                var cellDictionary = (IDictionary<string, object>)row[1];
-                string Name2 = cellDictionary[Value2].ToString();
-
-                // 处理字符串,根据比较运算符定义查询字符串
-                if (Name2 == "Column2" && !string.IsNullOrEmpty(Value2))
+                if (!row.IsNewRow)
                 {
-                    // 使用switch语句
-                    switch (Value2)
-                    {
-                        case "等于":
-                            filter += string.Format("{0} = '{1}'", Value1, Value3);
-                            break;
-                        case "不等于":
-                            filter += string.Format("{0} <> '{1}'", Value1, Value3);
-                            break;
-                        case "包含":
-                            filter += string.Format("({0} LIKE '%{1}%')", Value1, Value3);
-                            break;
-                        case "不包含":
-                            filter += string.Format("({0} NOT LIKE '%{1}%')", Value1, Value3);
-                            break;
-                        case "大于等于":
-                            filter += string.Format("({0} >= '{1}')", Value1, Value3);
-                            break;
-                        case "小于等于":
-                            filter += string.Format("({0} <= '{1}')", Value1, Value3);
-                            break;
-                        case "大于":
-                            filter += string.Format("({0} > '{1}')", Value1, Value3);
-                            break;
-                        case "小于":
-                            filter += string.Format("({0} < '{1}')", Value1, Value3);
-                            break;
-                        case "在...之内":
-                            filter += string.Format("({0} >= '{1}' AND {0} <= '{2}')", Value1, Value3, Value4);
-                            break;
-                        case "在...之外":
-                            filter += string.Format("({0} < '{1}' OR {0} > '{2}')", Value1, Value3, Value4);
-                            break;
-                        // 如果columnName不等于上述任何值
-                        default:
-                            break;
-                    }
+                    // 获取列的值
+                    string Value1 = (string)row.Cells["Column1"].Value;
+                    string Value2 = (string)row.Cells["Column2"].Value;
+                    string Value3 = (string)row.Cells["Column3"].Value;
+                    string Value4 = (string)row.Cells["Column4"].Value;
+                    string Value5 = (string)row.Cells["Column5"].Value;
 
+                    //MessageBox.Show($"{Value1} - {Value2} - {Value3} - {Value4} - {Value5}");
+
+                    // 处理字符串,根据比较运算符定义查询字符串
+                    if (!string.IsNullOrEmpty(Value2))
+                    {
+                        // 使用switch语句
+                        switch (Value2)
+                        {
+                            case "等于":
+                                filter += string.Format("{0} = '{1}'", Value1, Value3);
+                                break;
+                            case "不等于":
+                                filter += string.Format("{0} <> '{1}'", Value1, Value3);
+                                break;
+                            case "包含":
+                                filter += string.Format("({0} LIKE '%{1}%')", Value1, Value3);
+                                break;
+                            case "不包含":
+                                filter += string.Format("({0} NOT LIKE '%{1}%')", Value1, Value3);
+                                break;
+                            case "大于等于":
+                                filter += string.Format("({0} >= '{1}')", Value1, Value3);
+                                break;
+                            case "小于等于":
+                                filter += string.Format("({0} <= '{1}')", Value1, Value3);
+                                break;
+                            case "大于":
+                                filter += string.Format("({0} > '{1}')", Value1, Value3);
+                                break;
+                            case "小于":
+                                filter += string.Format("({0} < '{1}')", Value1, Value3);
+                                break;
+                            case "在...之内":
+                                filter += string.Format("({0} >= '{1}' AND {0} <= '{2}')", Value1, Value3, Value4);
+                                break;
+                            case "在...之外":
+                                filter += string.Format("({0} < '{1}' OR {0} > '{2}')", Value1, Value3, Value4);
+                                break;
+                            // 如果columnName不等于上述任何值
+                            default:
+                                break;
+                        }
+                    }
                     //根据行数判断是否添加多条件连接符
-                    if (rowIndex != rowsIndexLast)
+                    if (!string.IsNullOrEmpty(Value5))
                     {
                         // 使用switch语句
                         switch (Value5)
@@ -265,12 +249,13 @@ namespace QueryExcel
 
             //获取DataTable数据
             string tableName = listBox1.SelectedItem.ToString();
+
+            Query query = new();
             DataTable dataTable = query.Select(dataSet1.Tables[tableName], filter);
 
             //开始过滤数据
             dataGridView3.DataSource = null;
             dataGridView3.DataSource = dataTable;
-            */
         }
     }
 }
