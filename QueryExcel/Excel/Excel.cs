@@ -125,6 +125,21 @@ public class ExcelHandler
                 if (dataSource is DataGridView)
                 {
                     DataTable dataTable = (DataTable)((DataGridView)dataSource).DataSource;
+
+                    if (dataTable is null)
+                    {
+                        dataTable.TableName = "Sheet1";
+                        foreach (DataGridViewRow row in ((DataGridView)dataSource).Rows)
+                        {
+                            dataTable.Rows.Add(row);
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(dataTable.TableName)) 
+                    {
+                        dataTable.TableName = "Sheet1";
+                    }
+
                     MiniExcel.SaveAs(filePath, dataTable, printHeader: true, sheetName:dataTable.TableName);
                 }
                 else if (dataSource is DataSet)

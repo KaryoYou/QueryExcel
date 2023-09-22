@@ -145,7 +145,7 @@ namespace QueryExcel
         private void Button4_Click(object sender, EventArgs e)
         {
             ExcelHandler excelHandler = new();
-            excelHandler.ExportExcel(dataGridView1);
+            excelHandler.ExportExcel(dataGridView3);
         }
 
         /// <summary>
@@ -256,6 +256,16 @@ namespace QueryExcel
             //开始过滤数据
             dataGridView3.DataSource = null;
             dataGridView3.DataSource = dataTable;
+        }
+
+        /// <summary>
+        /// 清空自定义数据筛选条件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button3_Click(object sender, EventArgs e)
+        {
+            dataGridView2.Rows.Clear();
         }
     }
 }
