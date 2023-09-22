@@ -27,20 +27,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_10C2C73CE88342217B65A9CD2595BB80"
-        "OwnerKey" = "8:_56578B805FCD49E29927F061A7E04822"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_138DD8BFA31D960E563F918C2CB8206D"
         "OwnerKey" = "8:_10C2C73CE88342217B65A9CD2595BB80"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_138DD8BFA31D960E563F918C2CB8206D"
-        "OwnerKey" = "8:_CA0807BD77164330A74A5775A8A45D83"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -106,18 +94,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CA0807BD77164330A74A5775A8A45D83"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_56578B805FCD49E29927F061A7E04822"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_8B437B2CCAC64D8FB1C912028C02120C"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -172,6 +148,11 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 和 x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
                     "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8.1"
                     {
                     "Name" = "8:Microsoft .NET Framework 4.8.1 (x86 和 x64)"
@@ -202,6 +183,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -423,11 +412,6 @@
             "AssemblyAsmDisplayName" = "8:QueryExcel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_56578B805FCD49E29927F061A7E04822"
-                    {
-                    "Name" = "8:QueryExcel.exe"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\QueryExcel\\bin\\Debug\\QueryExcel.exe"
             "TargetName" = "8:"
@@ -505,11 +489,6 @@
             "AssemblyAsmDisplayName" = "8:MiniExcel, Version=1.31.2.0, Culture=neutral, PublicKeyToken=e7310002a53eac39, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CA0807BD77164330A74A5775A8A45D83"
-                    {
-                    "Name" = "8:MiniExcel.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\QueryExcel\\bin\\Debug\\MiniExcel.dll"
             "TargetName" = "8:"
