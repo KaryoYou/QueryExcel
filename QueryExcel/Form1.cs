@@ -151,6 +151,8 @@ namespace QueryExcel
                     dataGridView1.DataSource = null;
                     chart1.DataSource = null;
                     bindingSource1.DataSource = null;
+                    comboBox1.Text = null;
+                    comboBox2.Text = null;
                     comboBox1.Items.Clear();
                     comboBox2.Items.Clear();
 
