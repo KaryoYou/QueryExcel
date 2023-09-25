@@ -27,8 +27,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_10C2C73CE88342217B65A9CD2595BB80"
+        "OwnerKey" = "8:_56578B805FCD49E29927F061A7E04822"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_138DD8BFA31D960E563F918C2CB8206D"
         "OwnerKey" = "8:_10C2C73CE88342217B65A9CD2595BB80"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_138DD8BFA31D960E563F918C2CB8206D"
+        "OwnerKey" = "8:_CA0807BD77164330A74A5775A8A45D83"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,19 +100,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_138DD8BFA31D960E563F918C2CB8206D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_8B437B2CCAC64D8FB1C912028C02120C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CA0807BD77164330A74A5775A8A45D83"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_56578B805FCD49E29927F061A7E04822"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_10C2C73CE88342217B65A9CD2595BB80"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_138DD8BFA31D960E563F918C2CB8206D"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -152,11 +176,6 @@
                     {
                     "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 和 x64)"
                     "ProductCode" = "8:.NETFramework,Version=v4.7.2"
-                    }
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8.1"
-                    {
-                    "Name" = "8:Microsoft .NET Framework 4.8.1 (x86 和 x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.8.1"
                     }
                 }
             }
@@ -412,6 +431,11 @@
             "AssemblyAsmDisplayName" = "8:QueryExcel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_56578B805FCD49E29927F061A7E04822"
+                    {
+                    "Name" = "8:QueryExcel.exe"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\QueryExcel\\bin\\Debug\\QueryExcel.exe"
             "TargetName" = "8:"
@@ -489,6 +513,11 @@
             "AssemblyAsmDisplayName" = "8:MiniExcel, Version=1.31.2.0, Culture=neutral, PublicKeyToken=e7310002a53eac39, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_CA0807BD77164330A74A5775A8A45D83"
+                    {
+                    "Name" = "8:MiniExcel.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:..\\QueryExcel\\bin\\Debug\\MiniExcel.dll"
             "TargetName" = "8:"
@@ -565,7 +594,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:QueryExcel"
         "ProductCode" = "8:{FF728F8D-1DAF-4593-B250-429D054A36E5}"
-        "PackageCode" = "8:{9DC3650A-BC4C-4696-A51C-8E470F06EC0C}"
+        "PackageCode" = "8:{5B05C4D1-758C-49B5-801C-FE9EC1BECB8F}"
         "UpgradeCode" = "8:{DE33E9D8-EA2D-4C32-A250-6F370D1D3819}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -702,7 +731,7 @@
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_80B419AF0A5D4E8EBD7B545E4B897780"
             {
             "Name" = "8:QueryExcel卸载"
-            "Arguments" = "8:{FF728F8D-1DAF-4593-B250-429D054A36E5}"
+            "Arguments" = "8:/x{FF728F8D-1DAF-4593-B250-429D054A36E5}"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
