@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -47,6 +51,10 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.列名点击模式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.选中ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.排序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
@@ -55,6 +63,17 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.button5 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.复制选中ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.退出程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -67,6 +86,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
@@ -76,11 +96,16 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.contextMenuStrip2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -96,7 +121,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(651, 172);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "操作界面";
+            this.tabPage1.Text = "查询";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel2
@@ -271,6 +296,7 @@
             // 
             this.dataGridView1.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.MinimumSize = new System.Drawing.Size(320, 45);
@@ -278,6 +304,37 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(784, 221);
             this.dataGridView1.TabIndex = 1;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.列名点击模式ToolStripMenuItem,
+            this.复制选中ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 48);
+            // 
+            // 列名点击模式ToolStripMenuItem
+            // 
+            this.列名点击模式ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.选中ToolStripMenuItem,
+            this.排序ToolStripMenuItem});
+            this.列名点击模式ToolStripMenuItem.Name = "列名点击模式ToolStripMenuItem";
+            this.列名点击模式ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.列名点击模式ToolStripMenuItem.Text = "列名点击模式";
+            // 
+            // 选中ToolStripMenuItem
+            // 
+            this.选中ToolStripMenuItem.Name = "选中ToolStripMenuItem";
+            this.选中ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.选中ToolStripMenuItem.Text = "选中";
+            this.选中ToolStripMenuItem.Click += new System.EventHandler(this.选中ToolStripMenuItem_Click);
+            // 
+            // 排序ToolStripMenuItem
+            // 
+            this.排序ToolStripMenuItem.Name = "排序ToolStripMenuItem";
+            this.排序ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.排序ToolStripMenuItem.Text = "排序";
+            this.排序ToolStripMenuItem.Click += new System.EventHandler(this.排序ToolStripMenuItem_Click);
             // 
             // listBox1
             // 
@@ -395,6 +452,142 @@
             this.splitContainer1.SplitterDistance = 236;
             this.splitContainer1.TabIndex = 22;
             // 
+            // 复制选中ToolStripMenuItem
+            // 
+            this.复制选中ToolStripMenuItem.Name = "复制选中ToolStripMenuItem";
+            this.复制选中ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.复制选中ToolStripMenuItem.Text = "复制选中";
+            this.复制选中ToolStripMenuItem.Click += new System.EventHandler(this.复制选中ToolStripMenuItem_Click);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.tableLayoutPanel3);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(651, 172);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "图表";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // chart1
+            // 
+            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.LabelStyle.Angle = 90;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MinorGrid.LineColor = System.Drawing.Color.LightGray;
+            chartArea1.AxisY.MinorTickMark.Enabled = true;
+            chartArea1.AxisY.MinorTickMark.LineColor = System.Drawing.Color.Gainsboro;
+            chartArea1.AxisY.MinorTickMark.Size = 0.5F;
+            chartArea1.AxisY.ScaleBreakStyle.Spacing = 1D;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.tableLayoutPanel3.SetColumnSpan(this.chart1, 4);
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(3, 27);
+            this.chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Size = new System.Drawing.Size(639, 136);
+            this.chart1.TabIndex = 0;
+            this.chart1.Text = "chart1";
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip2;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "QueryExcel";
+            this.notifyIcon1.Visible = true;
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.退出程序ToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(125, 26);
+            // 
+            // 退出程序ToolStripMenuItem
+            // 
+            this.退出程序ToolStripMenuItem.Name = "退出程序ToolStripMenuItem";
+            this.退出程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.退出程序ToolStripMenuItem.Text = "退出程序";
+            this.退出程序ToolStripMenuItem.Click += new System.EventHandler(this.退出程序ToolStripMenuItem_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(74, 24);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "X轴数据列：";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Location = new System.Drawing.Point(325, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(74, 24);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Y轴数据列：";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.IntegralHeight = false;
+            this.comboBox1.Location = new System.Drawing.Point(83, 3);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(236, 20);
+            this.comboBox1.TabIndex = 3;
+            this.comboBox1.TextChanged += new System.EventHandler(this.comboBox1_TextChanged);
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.IntegralHeight = false;
+            this.comboBox2.ItemHeight = 12;
+            this.comboBox2.Location = new System.Drawing.Point(405, 3);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(237, 20);
+            this.comboBox2.TabIndex = 4;
+            this.comboBox2.TextChanged += new System.EventHandler(this.comboBox2_TextChanged);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 4;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel3.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.chart1, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.label3, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.comboBox2, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.comboBox1, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(645, 166);
+            this.tableLayoutPanel3.TabIndex = 7;
+            // 
             // Form1
             // 
             this.AllowDrop = true;
@@ -404,7 +597,7 @@
             this.Controls.Add(this.splitContainer1);
             this.MinimumSize = new System.Drawing.Size(530, 350);
             this.Name = "Form1";
-            this.Text = "ExcelQuery";
+            this.Text = "QueryExcel";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.tabControl1.ResumeLayout(false);
@@ -420,6 +613,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.splitContainer3.Panel1.ResumeLayout(false);
@@ -430,6 +624,11 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.contextMenuStrip2.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -462,6 +661,21 @@
         private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 列名点击模式ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 选中ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 排序ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 复制选中ToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem 退出程序ToolStripMenuItem;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
     }
 }
 

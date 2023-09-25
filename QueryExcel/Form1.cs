@@ -148,18 +148,28 @@ namespace QueryExcel
 
                 if (dataSet1.Tables.Contains(tableName)) // 检查DataSet中是否存在这个DataTable
                 {
-                    this.dataGridView1.DataSource = null;
-                    this.dataGridView1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到DataGridView
+                    dataGridView1.DataSource = null;
+                    chart1.DataSource = null;
+                    bindingSource1.DataSource = null;
+                    comboBox1.Items.Clear();
+                    comboBox2.Items.Clear();
+
+
+                    dataGridView1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到DataGridView
+                    chart1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到Chart
+                    chart1.DataBind();// 绑定数据
 
                     // 将Datable中所有列名绑定到bindingSource
                     List<string> columnNames = new();
                     foreach (DataColumn column in dataSet1.Tables[tableName].Columns)
                     {
-                        columnNames.Add(column.ColumnName);
+                        string columnName = column.ColumnName;
+                        columnNames.Add(columnName);
+                        comboBox1.Items.Add(columnName);
+                        comboBox2.Items.Add(columnName);
                     }
+                    bindingSource1.DataSource = columnNames;
 
-                    this.bindingSource1.DataSource = null;
-                    this.bindingSource1.DataSource = columnNames;
                 }
                 else
                 {
@@ -330,6 +340,85 @@ namespace QueryExcel
         private void button3_Click(object sender, EventArgs e)
         {
             dataGridView2.Rows.Clear();
+        }
+
+        private void 选中ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //不能被排序
+            foreach (DataGridViewColumn c in dataGridView1.Columns)
+            {
+                c.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
+            //选择模式：整列选择
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.ColumnHeaderSelect;
+        }
+
+        private void 排序ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //选择模式：整行选择
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+
+            //不能被排序
+            foreach (DataGridViewColumn c in dataGridView1.Columns)
+            {
+                c.SortMode = DataGridViewColumnSortMode.Automatic;
+            }
+        }
+
+        private void 复制选中ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataObject dataObj = dataGridView1.GetClipboardContent();
+            if (dataObj != null)
+            {
+                Clipboard.SetDataObject(dataObj);
+            }
+        }
+
+        private void 退出程序ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("是否确认退出程序?", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (dialogResult == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+
+        }
+
+        /// <summary>
+        /// chart1的X轴数据源设定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void comboBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(comboBox1.Text.ToString()) 
+                && !string.IsNullOrEmpty(comboBox2.Text.ToString()))
+            {
+                chart1.Series["Series1"].Points.Clear(); //清除之前的图
+
+                // 设置X轴和Y轴的值成员
+                chart1.Series["Series1"].XValueMember = comboBox1.Text;
+                chart1.Series["Series1"].YValueMembers = comboBox2.Text;
+            }
+        }
+
+        /// <summary>
+        /// chart1的Y轴数据源设定
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void comboBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(comboBox1.Text.ToString())
+                && !string.IsNullOrEmpty(comboBox2.Text.ToString()))
+            {
+                chart1.Series["Series1"].Points.Clear(); //清除之前的图
+
+                // 设置X轴和Y轴的值成员
+                chart1.Series["Series1"].XValueMember = comboBox1.Text;
+                chart1.Series["Series1"].YValueMembers = comboBox2.Text;
+            }
         }
     }
 }

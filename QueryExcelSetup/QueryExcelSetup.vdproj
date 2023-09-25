@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_09C3B83915474224A5B5F6F0712C4082"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_10C2C73CE88342217B65A9CD2595BB80"
         "OwnerKey" = "8:_8B437B2CCAC64D8FB1C912028C02120C"
         "MsmSig" = "8:_UNDEFINED"
@@ -94,6 +88,12 @@
         "Entry"
         {
         "MsmKey" = "8:_CA0807BD77164330A74A5775A8A45D83"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D0861F0421AC4DD69C8F9A174A4B907C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -240,26 +240,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_09C3B83915474224A5B5F6F0712C4082"
-            {
-            "SourcePath" = "8:..\\QueryExcel\\officeexcel.ico"
-            "TargetName" = "8:officeexcel.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_552DF4D0292B4943AF1C23A4FF4584DB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_10C2C73CE88342217B65A9CD2595BB80"
             {
             "AssemblyRegister" = "3:1"
@@ -537,6 +517,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D0861F0421AC4DD69C8F9A174A4B907C"
+            {
+            "SourcePath" = "8:..\\QueryExcel\\Icon\\Excel.ico"
+            "TargetName" = "8:Excel.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_552DF4D0292B4943AF1C23A4FF4584DB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -594,7 +594,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:QueryExcel"
         "ProductCode" = "8:{FF728F8D-1DAF-4593-B250-429D054A36E5}"
-        "PackageCode" = "8:{5B05C4D1-758C-49B5-801C-FE9EC1BECB8F}"
+        "PackageCode" = "8:{2DC9FF02-6C6E-4AAD-8669-022F0A8E0B37}"
         "UpgradeCode" = "8:{DE33E9D8-EA2D-4C32-A250-6F370D1D3819}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -725,7 +725,7 @@
             "Target" = "8:_8B437B2CCAC64D8FB1C912028C02120C"
             "Folder" = "8:_B8AA95022602468FAC75F0896976B880"
             "WorkingFolder" = "8:_552DF4D0292B4943AF1C23A4FF4584DB"
-            "Icon" = "8:_09C3B83915474224A5B5F6F0712C4082"
+            "Icon" = "8:_D0861F0421AC4DD69C8F9A174A4B907C"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_80B419AF0A5D4E8EBD7B545E4B897780"
@@ -739,7 +739,7 @@
             "Target" = "8:_47511DBF2372459792DB5172F90ACA01"
             "Folder" = "8:_B8AA95022602468FAC75F0896976B880"
             "WorkingFolder" = "8:_552DF4D0292B4943AF1C23A4FF4584DB"
-            "Icon" = "8:"
+            "Icon" = "8:_D0861F0421AC4DD69C8F9A174A4B907C"
             "Feature" = "8:"
             }
         }

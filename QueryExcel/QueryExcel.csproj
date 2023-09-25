@@ -58,7 +58,7 @@
     </Win32Resource>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>officeexcel.ico</ApplicationIcon>
+    <ApplicationIcon>Icon\Excel.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MiniExcel, Version=1.31.2.0, Culture=neutral, PublicKeyToken=e7310002a53eac39, processorArchitecture=MSIL">
@@ -74,6 +74,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -135,9 +136,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icon\officeexcel.png" />
-    <Content Include="Icon\officeexcel.ico" />
-    <Content Include="officeexcel.ico" />
+    <Content Include="Icon\Excel.ico" />
+    <Content Include="Icon\Excel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
