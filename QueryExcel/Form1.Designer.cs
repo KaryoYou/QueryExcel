@@ -276,7 +276,6 @@
             this.dataGridView1.MinimumSize = new System.Drawing.Size(320, 45);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.ColumnHeaderSelect;
             this.dataGridView1.Size = new System.Drawing.Size(784, 221);
             this.dataGridView1.TabIndex = 1;
             // 
