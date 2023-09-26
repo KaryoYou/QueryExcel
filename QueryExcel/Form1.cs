@@ -267,40 +267,83 @@ namespace QueryExcel
                         //MessageBox.Show($"{Value1} - {Value2} - {Value3} - {Value4} - {Value5}");
 
                         // 处理字符串,根据比较运算符定义查询字符串
+                        int number;
                         if (!string.IsNullOrEmpty(Value2))
                         {
                             // 使用switch语句
                             switch (Value2)
                             {
-                                case "等于":
-                                    filter += string.Format("{0} = '{1}'", Value1, Value3);
-                                    break;
-                                case "不等于":
-                                    filter += string.Format("{0} <> '{1}'", Value1, Value3);
-                                    break;
                                 case "包含":
                                     filter += string.Format("({0} LIKE '%{1}%')", Value1, Value3);
                                     break;
                                 case "不包含":
                                     filter += string.Format("({0} NOT LIKE '%{1}%')", Value1, Value3);
                                     break;
-                                case "大于等于":
-                                    filter += string.Format("({0} >= '{1}')", Value1, Value3);
-                                    break;
-                                case "小于等于":
-                                    filter += string.Format("({0} <= '{1}')", Value1, Value3);
-                                    break;
-                                case "大于":
-                                    filter += string.Format("({0} > '{1}')", Value1, Value3);
-                                    break;
-                                case "小于":
-                                    filter += string.Format("({0} < '{1}')", Value1, Value3);
-                                    break;
                                 case "在...之内":
-                                    filter += string.Format("({0} >= '{1}' AND {0} <= '{2}')", Value1, Value3, Value4);
+                                    if (!int.TryParse(Value3, out number) || !int.TryParse(Value4, out number))
+                                    {
+                                        // 这个值不能转换为数字
+                                        Value3 = $"'{Value3}'";
+                                        Value4 = $"'{Value4}'";
+                                    }
+                                    filter += string.Format("({0} >= {1} AND {0} <= {2})", Value1, Value3, Value4);
                                     break;
                                 case "在...之外":
-                                    filter += string.Format("({0} < '{1}' OR {0} > '{2}')", Value1, Value3, Value4);
+                                    if (!int.TryParse(Value3, out number) || !int.TryParse(Value4, out number))
+                                    {
+                                        // 这个值不能转换为数字
+                                        Value3 = $"'{Value3}'";
+                                        Value4 = $"'{Value4}'";
+                                    }
+                                    filter += string.Format("({0} < {1} OR {0} > {2})", Value1, Value3, Value4);
+                                    break;
+                                case "等于":
+                                    if (!int.TryParse(Value3, out number))
+                                    {
+                                        // 这个值不能转换为数字
+                                        Value3 = $"'{Value3}'";
+                                    }
+                                    filter += string.Format("({0} = {1})", Value1, Value3);
+                                    break;
+                                case "不等于":
+                                    if (!int.TryParse(Value3, out number))
+                                    {
+                                        // 这个值不能转换为数字
+                                        Value3 = $"'{Value3}'";
+                                    }
+                                    filter += string.Format("({0} <> {1})", Value1, Value3);
+                                    break;
+                                case "大于等于":
+                                    if (!int.TryParse(Value3, out number))
+                                    {
+                                        // 这个值不能转换为数字
+                                        Value3 = $"'{Value3}'";
+                                    }
+                                    filter += string.Format("({0} >= {1})", Value1, Value3);
+                                    break;
+                                case "小于等于":
+                                    if (!int.TryParse(Value3, out number))
+                                    {
+                                        // 这个值不能转换为数字
+                                        Value3 = $"'{Value3}'";
+                                    }
+                                    filter += string.Format("({0} <= {1})", Value1, Value3);
+                                    break;
+                                case "大于":
+                                    if (!int.TryParse(Value3, out number))
+                                    {
+                                        // 这个值不能转换为数字
+                                        Value3 = $"'{Value3}'";
+                                    }
+                                    filter += string.Format("({0} > {1})", Value1, Value3);
+                                    break;
+                                case "小于":
+                                    if (!int.TryParse(Value3, out number))
+                                    {
+                                        // 这个值不能转换为数字
+                                        Value3 = $"'{Value3}'";
+                                    }
+                                    filter += string.Format("({0} < {1})", Value1, Value3);
                                     break;
                                 // 如果columnName不等于上述任何值
                                 default:
@@ -330,12 +373,15 @@ namespace QueryExcel
                 //获取DataTable数据
                 string tableName = listBox1.SelectedItem.ToString();
 
-                Query query = new();
-                DataTable dataTable = query.Select(dataSet1.Tables[tableName], filter);
-
                 //开始过滤数据
+                DataTable dataTable = dataSet1.Tables[tableName];
+                DataView dataView = new(dataTable)
+                {
+                    RowFilter = filter
+                };
+
                 dataGridView3.DataSource = null;
-                dataGridView3.DataSource = dataTable;
+                dataGridView3.DataSource = dataView.ToTable(tableName);
             }
             catch (Exception ex)
             {
