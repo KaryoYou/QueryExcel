@@ -162,10 +162,8 @@ namespace QueryExcel
                     comboBox1.Items.Clear();
                     comboBox2.Items.Clear();
 
-                    //绑定数据源
-                    dataGridView1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到DataGridView
-                    chart1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到Chart
-
+                    // 将DataTable绑定到DataGridView
+                    dataGridView1.DataSource = dataSet1.Tables[tableName]; 
                     // 将Datable中所有列名绑定到bindingSource
                     List<string> columnNames = new();
                     foreach (DataColumn column in dataSet1.Tables[tableName].Columns)
@@ -176,12 +174,6 @@ namespace QueryExcel
                         comboBox2.Items.Add(columnName);
                     }
                     bindingSource1.DataSource = columnNames;
-
-                    // 设置X轴和Y轴的值成员
-                    chart1.Series["Series1"].XValueMember = comboBox1.Items[0].ToString();
-                    chart1.Series["Series1"].YValueMembers = comboBox2.Items[0].ToString();
-                    // 绑定数据
-                    chart1.DataBind();
                 }
                 else
                 {
@@ -453,11 +445,17 @@ namespace QueryExcel
             if (!string.IsNullOrEmpty(comboBox1.Text.ToString()) 
                 && !string.IsNullOrEmpty(comboBox2.Text.ToString()))
             {
-                chart1.Series["Series1"].Points.Clear(); //清除之前的图
+                // 将listbox的选中的DataTable绑定到Chart
+                chart1.DataSource = null;
+                chart1.DataSource = dataSet1.Tables[listBox1.SelectedItem.ToString()];
+
+                //清除之前的图
+                chart1.Series["Series1"].Points.Clear(); 
 
                 // 设置X轴和Y轴的值成员
                 chart1.Series["Series1"].XValueMember = comboBox1.Text;
                 chart1.Series["Series1"].YValueMembers = comboBox2.Text;
+
                 // 绑定数据
                 chart1.DataBind();
             }
@@ -473,11 +471,17 @@ namespace QueryExcel
             if (!string.IsNullOrEmpty(comboBox1.Text.ToString())
                 && !string.IsNullOrEmpty(comboBox2.Text.ToString()))
             {
-                chart1.Series["Series1"].Points.Clear(); //清除之前的图
+                // 将listbox的选中的DataTable绑定到Chart
+                chart1.DataSource = null;
+                chart1.DataSource = dataSet1.Tables[listBox1.SelectedItem.ToString()];
+
+                //清除之前的图
+                chart1.Series["Series1"].Points.Clear();
 
                 // 设置X轴和Y轴的值成员
                 chart1.Series["Series1"].XValueMember = comboBox1.Text;
                 chart1.Series["Series1"].YValueMembers = comboBox2.Text;
+
                 // 绑定数据
                 chart1.DataBind();
             }
