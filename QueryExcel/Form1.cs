@@ -148,18 +148,23 @@ namespace QueryExcel
 
                 if (dataSet1.Tables.Contains(tableName)) // 检查DataSet中是否存在这个DataTable
                 {
-                    dataGridView1.DataSource = null;
-                    chart1.DataSource = null;
+                    //清空BindingSource
                     bindingSource1.DataSource = null;
+                    //清空DataGridView
+                    dataGridView1.DataSource = null;
+                    //清空Chart
+                    chart1.Series["Series1"].XValueMember = null;
+                    chart1.Series["Series1"].YValueMembers = null;
+                    chart1.Series["Series1"].Points.Clear();
+                    chart1.DataSource = null;
                     comboBox1.Text = null;
                     comboBox2.Text = null;
                     comboBox1.Items.Clear();
                     comboBox2.Items.Clear();
 
-
+                    //绑定数据源
                     dataGridView1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到DataGridView
                     chart1.DataSource = dataSet1.Tables[tableName]; // 将DataTable绑定到Chart
-                    chart1.DataBind();// 绑定数据
 
                     // 将Datable中所有列名绑定到bindingSource
                     List<string> columnNames = new();
@@ -172,6 +177,11 @@ namespace QueryExcel
                     }
                     bindingSource1.DataSource = columnNames;
 
+                    // 设置X轴和Y轴的值成员
+                    chart1.Series["Series1"].XValueMember = comboBox1.Items[0].ToString();
+                    chart1.Series["Series1"].YValueMembers = comboBox2.Items[0].ToString();
+                    // 绑定数据
+                    chart1.DataBind();
                 }
                 else
                 {
@@ -402,6 +412,8 @@ namespace QueryExcel
                 // 设置X轴和Y轴的值成员
                 chart1.Series["Series1"].XValueMember = comboBox1.Text;
                 chart1.Series["Series1"].YValueMembers = comboBox2.Text;
+                // 绑定数据
+                chart1.DataBind();
             }
         }
 
@@ -420,6 +432,8 @@ namespace QueryExcel
                 // 设置X轴和Y轴的值成员
                 chart1.Series["Series1"].XValueMember = comboBox1.Text;
                 chart1.Series["Series1"].YValueMembers = comboBox2.Text;
+                // 绑定数据
+                chart1.DataBind();
             }
         }
     }
