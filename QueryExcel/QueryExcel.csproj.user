@@ -3,11 +3,17 @@
   <PropertyGroup>
     <PublishUrlHistory>D:\GitHub\Publish\|D:\GitHub\|publish\</PublishUrlHistory>
     <InstallUrlHistory>https://github.com/KaryoYou/QueryExcel/raw/main/QueryExcelSetup/Debug/QueryExcel.msi/</InstallUrlHistory>
-    <SupportUrlHistory />
+    <SupportUrlHistory>https://github.com/KaryoYou/QueryExcel</SupportUrlHistory>
     <UpdateUrlHistory>https://github.com/KaryoYou/QueryExcel/raw/main/QueryExcelSetup/Debug/QueryExcel.msi/</UpdateUrlHistory>
     <BootstrapperUrlHistory />
     <ErrorReportUrlHistory />
     <FallbackCulture>zh-CN</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+  <PropertyGroup>
+    <EnableSecurityDebugging>false</EnableSecurityDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
 </Project>
