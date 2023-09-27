@@ -1,0 +1,16 @@
+D:\GitHub\QueryExcel\QueryExcel\bin\Release\QueryExcel.exe.config
+D:\GitHub\QueryExcel\QueryExcel\bin\Release\QueryExcel.exe.manifest
+D:\GitHub\QueryExcel\QueryExcel\bin\Release\QueryExcel.application
+D:\GitHub\QueryExcel\QueryExcel\bin\Release\QueryExcel.exe
+D:\GitHub\QueryExcel\QueryExcel\bin\Release\QueryExcel.pdb
+D:\GitHub\QueryExcel\QueryExcel\bin\Release\MiniExcel.dll
+D:\GitHub\QueryExcel\QueryExcel\obj\Release\QueryExcel.csproj.AssemblyReference.cache
+D:\GitHub\QueryExcel\QueryExcel\obj\Release\QueryExcel.Form1.resources
+D:\GitHub\QueryExcel\QueryExcel\obj\Release\QueryExcel.Properties.Resources.resources
+D:\GitHub\QueryExcel\QueryExcel\obj\Release\QueryExcel.csproj.GenerateResource.cache
+D:\GitHub\QueryExcel\QueryExcel\obj\Release\QueryExcel.csproj.CoreCompileInputs.cache
+D:\GitHub\QueryExcel\QueryExcel\obj\Release\QueryExcel.exe.manifest
+D:\GitHub\QueryExcel\QueryExcel\obj\Release\QueryExcel.application
+D:\GitHub\QueryExcel\QueryExcel\obj\Release\QueryExcel.csproj.CopyComplete
+D:\GitHub\QueryExcel\QueryExcel\obj\Release\QueryExcel.exe
+D:\GitHub\QueryExcel\QueryExcel\obj\Release\QueryExcel.pdb
